@@ -1,35 +1,311 @@
-<div class="container mt-4">
-  <h2 class="mb-4 text-center">Employee Portal Dashboard</h2>
+<div class="container-fluid mt-4">
+  <!-- Welcome Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1">
+            <i class="fas fa-tachometer-alt text-primary me-2"></i>
+            Employee Portal Dashboard
+          </h2>
+          <p class="text-muted mb-0">Welcome back! Here's what's happening in your organization.</p>
+        </div>
+        <div class="text-end">
+          <small class="text-muted">Last updated: {{ lastUpdated | date:'short' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <div class="row text-center">
-   
-    <div class="col-md-4 mb-3">
-      <div class="card shadow border-primary">
+  <!-- Key Metrics Cards -->
+  <div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
-          <h5 class="card-title">Total Employees</h5>
-          <p class="display-6 text-primary">{{ totalEmployees }}</p>
-          <a routerLink="/employee-list" class="btn btn-outline-primary">View Employees</a>
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <div class="bg-primary bg-gradient rounded-circle p-3">
+                <i class="fas fa-users text-white"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <div class="text-muted small">Total Employees</div>
+              <div class="h4 mb-0 text-primary">{{ stats.totalEmployees }}</div>
+              <small class="text-success">
+                <i class="fas fa-arrow-up me-1"></i>
+                +{{ stats.newHiresThisMonth }} this month
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <button class="btn btn-outline-primary btn-sm w-100" (click)="navigateToEmployeeList()">
+            <i class="fas fa-eye me-1"></i>View All
+          </button>
         </div>
       </div>
     </div>
 
-   
-    <div class="col-md-4 mb-3">
-      <div class="card shadow border-success">
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
-          <h5 class="card-title">Departments</h5>
-          <p class="display-6 text-success">{{ departments }}</p>
-          <a routerLink="/employee-form" class="btn btn-outline-success">Add Employee</a>
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <div class="bg-success bg-gradient rounded-circle p-3">
+                <i class="fas fa-building text-white"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <div class="text-muted small">Departments</div>
+              <div class="h4 mb-0 text-success">{{ stats.departments }}</div>
+              <small class="text-muted">Active departments</small>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <button class="btn btn-outline-success btn-sm w-100" (click)="navigateToEmployeeList()">
+            <i class="fas fa-chart-pie me-1"></i>View Breakdown
+          </button>
         </div>
       </div>
     </div>
- 
-    <div class="col-md-4 mb-3">
-      <div class="card shadow border-warning">
+
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
-          <h5 class="card-title">Active Projects</h5>
-          <p class="display-6 text-warning">{{ activeProjects }}</p>
-          <button class="btn btn-outline-warning">View Projects</button>
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <div class="bg-warning bg-gradient rounded-circle p-3">
+                <i class="fas fa-project-diagram text-white"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <div class="text-muted small">Active Projects</div>
+              <div class="h4 mb-0 text-warning">{{ stats.activeProjects }}</div>
+              <small class="text-muted">Currently running</small>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <button class="btn btn-outline-warning btn-sm w-100">
+            <i class="fas fa-eye me-1"></i>View Projects
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <div class="bg-info bg-gradient rounded-circle p-3">
+                <i class="fas fa-dollar-sign text-white"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <div class="text-muted small">Average Salary</div>
+              <div class="h4 mb-0 text-info">{{ formatCurrency(stats.averageSalary) }}</div>
+              <small class="text-muted">Annual average</small>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <button class="btn btn-outline-info btn-sm w-100" (click)="navigateToEmployeeList()">
+            <i class="fas fa-chart-bar me-1"></i>Salary Report
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secondary Metrics -->
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body text-center">
+          <i class="fas fa-birthday-cake fa-2x text-info mb-2"></i>
+          <h5 class="mb-1">{{ stats.upcomingBirthdays }}</h5>
+          <small class="text-muted">Upcoming Birthdays</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body text-center">
+          <i class="fas fa-clipboard-check fa-2x text-warning mb-2"></i>
+          <h5 class="mb-1">{{ stats.pendingReviews }}</h5>
+          <small class="text-muted">Pending Reviews</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body text-center">
+          <i class="fas fa-star fa-2x text-success mb-2"></i>
+          <h5 class="mb-1">{{ stats.employeeSatisfaction }}</h5>
+          <small class="text-muted">Satisfaction Rating</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body text-center">
+          <i class="fas fa-user-plus fa-2x text-primary mb-2"></i>
+          <h5 class="mb-1">{{ stats.newHiresThisMonth }}</h5>
+          <small class="text-muted">New Hires This Month</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Row -->
+  <div class="row">
+    <!-- Department Distribution -->
+    <div class="col-lg-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">
+            <i class="fas fa-chart-pie text-primary me-2"></i>
+            Department Distribution
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="department-chart">
+            <div *ngFor="let dept of departmentStats" class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-medium">{{ dept.name }}</span>
+                <span class="text-muted">{{ dept.count }} ({{ dept.percentage }}%)</span>
+              </div>
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar" 
+                     [style.width.%]="dept.percentage" 
+                     [style.background-color]="dept.color">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="col-lg-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">
+            <i class="fas fa-clock text-primary me-2"></i>
+            Recent Activity
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="activity-feed">
+            <div *ngFor="let activity of recentActivities" class="activity-item d-flex align-items-start mb-3">
+              <div class="flex-shrink-0 me-3">
+                <i [class]="getActivityIcon(activity.type)"></i>
+              </div>
+              <div class="flex-grow-1">
+                <div class="fw-medium">{{ activity.employeeName }}</div>
+                <div class="text-muted small">{{ activity.message }}</div>
+                <div class="text-muted" style="font-size: 0.75rem;">{{ getTimeAgo(activity.timestamp) }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Row -->
+  <div class="row">
+    <!-- Top Performers -->
+    <div class="col-lg-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">
+            <i class="fas fa-trophy text-warning me-2"></i>
+            Top Performers
+          </h5>
+        </div>
+        <div class="card-body">
+          <div *ngFor="let performer of topPerformers; let i = index" class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0 me-3">
+              <div class="bg-warning bg-gradient rounded-circle p-2 text-white fw-bold">
+                {{ i + 1 }}
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <div class="fw-medium">{{ performer.name }}</div>
+              <div class="text-muted small">{{ performer.department }}</div>
+            </div>
+            <div class="flex-shrink-0 text-end">
+              <div class="fw-medium">{{ performer.rating }}/5</div>
+              <div class="text-muted small">{{ performer.projects }} projects</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div class="col-lg-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">
+            <i class="fas fa-calendar-alt text-info me-2"></i>
+            Upcoming Events
+          </h5>
+        </div>
+        <div class="card-body">
+          <div *ngFor="let event of upcomingEvents" class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0 me-3">
+              <div class="bg-info bg-gradient rounded-circle p-2 text-white">
+                <i class="fas fa-calendar-day"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <div class="fw-medium">{{ event.title }}</div>
+              <div class="text-muted small">{{ formatDate(event.date) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">
+            <i class="fas fa-bolt text-primary me-2"></i>
+            Quick Actions
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3 mb-2">
+              <button class="btn btn-outline-primary w-100" (click)="navigateToEmployeeForm()">
+                <i class="fas fa-user-plus me-2"></i>Add Employee
+              </button>
+            </div>
+            <div class="col-md-3 mb-2">
+              <button class="btn btn-outline-success w-100" (click)="navigateToEmployeeList()">
+                <i class="fas fa-users me-2"></i>Manage Employees
+              </button>
+            </div>
+            <div class="col-md-3 mb-2">
+              <button class="btn btn-outline-info w-100">
+                <i class="fas fa-chart-bar me-2"></i>Generate Report
+              </button>
+            </div>
+            <div class="col-md-3 mb-2">
+              <button class="btn btn-outline-warning w-100">
+                <i class="fas fa-cog me-2"></i>Settings
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
