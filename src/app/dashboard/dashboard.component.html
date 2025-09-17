@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Employee Portal Dashboard</h2>
+
+  <div class="row text-center">
+   
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border-primary">
+        <div class="card-body">
+          <h5 class="card-title">Total Employees</h5>
+          <p class="display-6 text-primary">{{ totalEmployees }}</p>
+          <a routerLink="/employee-list" class="btn btn-outline-primary">View Employees</a>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border-success">
+        <div class="card-body">
+          <h5 class="card-title">Departments</h5>
+          <p class="display-6 text-success">{{ departments }}</p>
+          <a routerLink="/employee-form" class="btn btn-outline-success">Add Employee</a>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border-warning">
+        <div class="card-body">
+          <h5 class="card-title">Active Projects</h5>
+          <p class="display-6 text-warning">{{ activeProjects }}</p>
+          <button class="btn btn-outline-warning">View Projects</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div class="mt-4 text-center">
+    <a routerLink="/employee-list" class="btn btn-success me-2">Manage Employees</a>
+    <a routerLink="/employee-form" class="btn btn-primary me-2">Add Employee</a>
+  </div>
+</div>
+
+
+
+
+
+ 
