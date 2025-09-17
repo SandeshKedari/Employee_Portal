@@ -4,9 +4,20 @@
   flex-direction: column;
 }
 
+/* Fixed header */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  width: 100%;
+}
+
 .main-content {
   display: flex;
   flex: 1;
+  margin-top: 56px; /* Height of fixed navbar */
 }
 
 .sidebar {
@@ -56,15 +67,17 @@
   margin-left: 250px;
   padding: 1rem;
   transition: margin-left 0.3s ease;
+  min-height: calc(100vh - 56px);
+  overflow-y: auto;
 }
 
 .sidebar-overlay {
   display: none;
   position: fixed;
-  top: 0;
+  top: 56px; /* Start below fixed navbar */
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 56px);
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
@@ -92,5 +105,31 @@
 @media (min-width: 769px) {
   .sidebar {
     transform: translateX(0);
+  }
+}
+
+/* Ensure content doesn't get hidden behind fixed header */
+body {
+  padding-top: 56px;
+}
+
+/* Smooth scrolling for content area */
+.content-area {
+  scroll-behavior: smooth;
+}
+
+/* Add shadow to fixed navbar for better visual separation */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+/* Hide hamburger button on desktop */
+.hamburger-btn {
+  display: block;
+}
+
+@media (min-width: 769px) {
+  .hamburger-btn {
+    display: none !important;
   }
 }
