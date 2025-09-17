@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
+import { LayoutComponent } from './layout/layout.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { EmployeeFormComponent } from './employee-form/employee-form.component';
     LoginComponent,
     EmployeeListComponent,
     EmployeeFormComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

@@ -9,10 +9,10 @@ export class AuthService {
 
   constructor(private router: Router) {}
 
-  login(username: string, password: string): boolean {
-    if (username === 'admin' && password === 'admin') {
+  login(email: string, password: string): boolean {
+    if (email === 'sk@gmail.com' && password === '123456') {
       this.loggedIn = true;
-      localStorage.setItem('isLoggedIn', 'true') ;
+      localStorage.setItem('isLoggedIn', 'true');
       return true;
     }
     return false;
